@@ -95,12 +95,14 @@ alteração e executar denovo a migration.
 
 2 - acessa a migration edita oque precisa editar na estrutura da tabela
 
-3 - php artisan migrate (cria a atela novamente com a nova estrutura)
+3 - php artisan migrate (cria a tabela novamente com a nova estrutura)
 
 ATENÇÃO! : se o laravel estiver em um servidor de produção ele vai alertar e perguntar
       se você realmente deseja fazer isso, enquanto você não digitar yes no terminal 
       ele vai ficar esperando, ele faz isso para evitar mudanças por acidente, em 
       ambientes de produção.
+
+
 
 
 
