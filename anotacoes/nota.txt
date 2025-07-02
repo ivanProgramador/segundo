@@ -1,3 +1,9 @@
 Sempre que o framework mudar de servidor veifique se o arquivo 
 "database.sqlite" existe dentro da pasta database e mentenha sempre 
-a opção "APP_DEBUG=true" como true pra ele mostrar os erros 
+a opção "APP_DEBUG=true" como true pra ele mostrar os erros.
+
+exportou projeto
+1 - verifica o sqlitese esta dentro da pasta database
+2 - gerar a chave do framework  php artisan key:generate
+3 - verificar se a opção "APP_DEBUG=true" esta true 
+    
