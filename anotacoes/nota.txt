@@ -1,0 +1,3 @@
+Sempre que o framework mudar de servidor veifique se o arquivo 
+"database.sqlite" existe dentro da pasta database e mentenha sempre 
+a opção "APP_DEBUG=true" como true pra ele mostrar os erros 
