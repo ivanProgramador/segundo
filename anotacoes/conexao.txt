@@ -1,0 +1,136 @@
+Vou criar um abase de dados experimental chamada clube que terá ma unica tabela  
+seria a tabela de socios.
+
+BD: clube 
+tb: socios 
+campos:id_socio 
+       nome
+       telefone 
+       created_at (geração automática) 
+       updated_at (geração automática)
+
+user: root 
+pass: ''
+
+configurações de conexão devem ser informadas no arquivo .env (esse arquivo é ignorado pelo git por conter dados de autenticação )
+mesmo em ambientes de teste ou desenvolvimento é mais seguro manter ele assim.
+
+preechendo as configurações no .env 
+
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=clube
+    DB_USERNAME=root
+    DB_PASSWORD=
+
+gerando uma migration
+
+  Nesse projeto eu apaguei de proposito as migrations que ficam no caminho 'database/migrations/' para criar as minhas para entender melhor 
+  o funcionamento.O comando abaixo vai gerar um arquivo no caminho 'database/migrations/' com a estrutura que preciso para criar a tabela.    
+
+     php artisan make:migration create_socios_table 
+
+  o nome do aqruivo gerado traz 3 informações
+
+        1 - data de criação (2025_07_02)
+        2 - um codigo (131119) hora(13) , minutos(11), segundos(19) da criação.
+            ATENÇÃO ! está com 3 horas a mais do horario original porque ainda não ajustei o fuso horário  
+        3 - nome da tabela (socios)
+
+  2025_07_02_131119_socios.php  
+
+  depois que terminei de criar os campos necessários ao socio minha migration ficou assim: 
+
+------------------------------------------------------------------------------------------------------------------  
+ return new class extends Migration
+ 
+        {
+            
+            public function up(): void
+            {
+                Schema::create('socios', function (Blueprint $table) {
+                    $table->id('id_socio');
+                    $table->string('nome', 50); //esse campo vai se chamar nome e terá no máximo 50 caracteres
+                    $table->string('telefone', 20); //esse campo vai se chamar telefone e terá no máximo 20 caracteres 
+                    $table->timestamps(); // esse campo cria as colunas created_at e updated_at de forma automática 
+                });
+            }
+
+            
+            public function down(): void
+            {
+                Schema::dropIfExists('socios'); // esse método é responsável por desfazer a migração, ou seja, apagar a tabela socios
+            }
+        };
+---------------------------------------------------------------------------------------------------------------------
+
+
+ATENÇÃO! 
+
+  "Mesmo com o banco criado e conectado o Laravel vai aprsentar esse erro
+     SQLSTATE[42S02]: Base table or view not found: 1146 Table 'clube.sessions' doesn't exist (Connection: mysql, SQL: select * from `sessions` where `id` = dzOAToWPuJZHc4XY6b1yjl9NGBPdvnYFsXp86khm limit 1)
+
+   Porque ele vai buscar algo chamado sessions e não vai achar, porque isso so passa a existir quando a migration for executada
+   e a tabela de fato estiver na base de dados.
+
+   se ele não criar de forma automatica use esses 2 comandos prra fazer isso de forma manual 
+   A SEQUÊNCIA NUMERICA ABAIXO DEVE SER RESPEITADA OU NÃO VAI FUNCIONAR ! 
+
+    1 - php artisan session:table
+    2 - php artisan migrate
+
+   "
+
+gerando a tabela no banco de dados 
+
+  php artisan migrate 
+
+Depois disso as tabelas foram criadas, mas se eu precisar adiocnar algum campo ou modificar 
+as tabelas que eu criei isso não acontece de forma espontanea porque ele é sincrono então 
+eu tenho que desfazer a criação dessa tabela usando comando de rollback e depois fazer a 
+alteração e executar denovo a migration.
+
+1 - php artisan migrate:rollback (desfazendo a criação e apagando a tabela)
+
+2 - acessa a migration edita oque precisa editar na estrutura da tabela
+
+3 - php artisan migrate (cria a atela novamente com a nova estrutura)
+
+ATENÇÃO! : se o laravel estiver em um servidor de produção ele vai alertar e perguntar
+      se você realmente deseja fazer isso, enquanto você não digitar yes no terminal 
+      ele vai ficar esperando, ele faz isso para evitar mudanças por acidente, em 
+      ambientes de produção.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+    
