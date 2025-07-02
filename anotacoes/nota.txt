@@ -1,9 +1,88 @@
 Sempre que o framework mudar de servidor veifique se o arquivo 
 "database.sqlite" existe dentro da pasta database e mentenha sempre 
 a opção "APP_DEBUG=true" como true pra ele mostrar os erros.
+sempre excutar composer install dentro da pasta raiz pra ele trazer 
+as depedencias 
 
 exportou projeto
 1 - verifica o sqlitese esta dentro da pasta database
 2 - gerar a chave do framework  php artisan key:generate
 3 - verificar se a opção "APP_DEBUG=true" esta true 
+
+SEMPRE! desligue o servidor de teste e tente rodar dento do servidor 
+apache, porque o servidor de teste sempre vai funcionar mas o apache só roda ele 
+se as configurações estiverem corretas, é o servidor que aplicação vai rodar 
+não vai ser de teste.
+
+http://localhost/segundo/public/
+
+Migrations
+ O Laravel usa um sistema de ORM chamado Eloquent que utiliza classes para mapear os dados 
+ de uma tabela da base de dados.
+
+ 1 - ele gera um classe anônima que herda os metodos da classe Migration o primeiro metodo
+     seria o UP. Ao ser executado ele acioa o metodo create a da classe   "Schema" esse metodo recebe 2 
+     parametros, 
+
+     1- o 'nome da tabela esta como "cache" ' eo outro seria um funcção de callback anônima que recebe a veriável $table do tipo 
+     Blueprint, por se tratar de uma classe um tipo Blueprint possui os metodos necessarios pra gerar 
+     os campos por isso: 
+     
+      $table ->String('key')->primary();
+
+     gera um campo do tipo string com o nome 'key' qua será uma chave primaria. O padrão de criação
+     de um campo é 
+
+         tipo ->('nome do campo ')-> "definição adicional"
+
+     embaixo eu vou criar um campo do tipo integer sem definição(configuração) adicional trata-se 
+     de um campo simples. 
+
+         $table->integer('expiration'); 
+
+    Basicamente a função Up cria a tabela e seus campos conforme a configurações informadas pelo 
+    usuário. 
+
+
+
+
+
+-------------------------------------------------------------------------------------------------
+     public function up(): void
+    {
+        Schema::create('cache', function (Blueprint $table) {
+            $table->string('key')->primary();
+            $table->mediumText('value');
+            $table->integer('expiration');
+        });
+
+        Schema::create('cache_locks', function (Blueprint $table) {
+            $table->string('key')->primary();
+            $table->string('owner');
+            $table->integer('expiration');
+        });
+    }
+-------------------------------------------------------------------------------------------------- 
+
+Função Down  
+  Os efeitos gerados pela execução dela foram de rollback, ela pega tudo relacionado a tabela e apaga 
+  ela usa tambem metodos da classe Schema só que são metodos pra eliminar / desfazer oque foi feito 
+  tem um tabela chamada migrations que não sai da base de dados mesmo com o rollback, até aqui acredito 
+  que ela usa essa tabela para ter uma base doque deve ser desfeito. Ela faz a consulta do historico 
+  e volta atras em qualquer alteração que framework fez na tabela ao contar da ultima alteração.     
+
+
+---------------------------------------------------------------------
+ public function down(): void
+    {
+        Schema::dropIfExists('jobs');
+        Schema::dropIfExists('job_batches');
+        Schema::dropIfExists('failed_jobs');
+    }
+-----------------------------------------------------------------------
+        
+
+
+
+
     
