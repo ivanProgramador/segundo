@@ -39,9 +39,6 @@ apagando um usuario
 
 Essa queries foram executadas nos controllers para teste mas o certo e que elas fiquem dentro dos models.
 
-Query Builders 
-  A o inves de usar o SQL é possivel utilizar um conjunto de metodos para executar as consultas
-  esses métodos vem da classe DB.
   
 
 

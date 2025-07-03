@@ -16,23 +16,11 @@ use Socios;
 class Teste extends Controller
 {
     public function index()
-        {
+      {
 
-        //embora o nome original da classe que eu criei seja socios
-        //ele so funcinou depois que escrevi dessa forma
-        //deve ser algum tipo de alias para models 
-
-          $model = new ModelsSocios();
-          $resultado = $model->get_socios();
-          $model->delete_all();
-
-          foreach($resultado as $socio){
-              echo'<p>' . $socio->nome . '</p>';
-          }
-
-          //view('home',$resultado);
+        return view('home');  
         
-        }
+       }
 
      public function contatos()
         {

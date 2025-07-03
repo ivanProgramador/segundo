@@ -1,0 +1,76 @@
+Query builders 
+  
+No caso as query Builders são um jeito de usar metodos para fazer consultas na base de dados, 
+esses metodos ficam dentro da classe DB, A expressão query builder significa contutor de queries 
+como um quebra cabeça eu posso montar a minha querie usando apenas uma DB classe e seus metodos.
+esse é um exemplo de select, no metodo table eu coloco o nme da minha tabela como parametro, depois 
+eu uso o metodo get para dizer oque eu quero fazer com os dados dessa tabela e depois eu informo 
+que quero todos os dados.
+
+a documentação do laravel tem as instruções de uso na Fluent query builder   
+https://laravel.com/docs/12.x/queries
+
+    $Resultados = DB::table('socios')->get()->all();
+   
+  mostrando uma lista de nomes que veio da query builder 
+
+    foreach($Resultado as $socio){
+             echo '<p>'.$socio->nome. '</p>';
+     }
+
+mostrando dados especificos no caso abaixo eu solicitei somente nome e telefone por isso eu precisei colocar um array 
+como parametro no metodo get, caso fosse somenete nome o array seria desnecessário 
+
+      
+         $Resultado = DB::table('socios')->get(['nome','telefone'])->all();
+
+         echo'<pre>';
+         print_r($Resultado);
+         
+Buscando um cadastro especifico o laravel parte do pre-suposto que o campo 'id' do registro terá o nome id
+porém na minha base de dados o id esta na coluna id_socios então se eu colocar o id 1 para ele procurar vai 
+dar erro, até aqui eu tiove qua mudar o nome da coluna pra consulta funcionar.   
+
+         $Resultado = DB::table('socios')->get()->find(1);
+
+Usando WHERE no query builder, o metodo where nesse caso está recebendo o campo e o numero do id que quero buscar,
+mas.
+
+ ATENÇÃO ! 
+     SE O METODO GET FOR USADO DESSE JEITO ABAIXO ELE VAI TRAZER TODOS OS DADOS DO REGISTRO INCLUSIVE A SENHA DO SERVIDOR,
+     E VAI MOSTRAR NA TELA ENTÃO O WHERE NUNCA DEVE SER USADO DESSA FORMA !!
+
+                   | | | | | | | | |
+                   V V V V V V V V V
+         ----------------------------------------------------------
+          |||  $Resultado = DB::table('socios')->where('id',4);  |||
+         ----------------------------------------------------------
+
+
+A forma certa de usar isso assim ele vai buscar todos que tem o id 3 e vai manter os resto dos dados ocultos. 
+
+      $Resultado = DB::table('socios')->where('id',4)->get()->all(); 
+
+Agora se eu quiser todos menos o regotro com o id  4 eu tenho que passar 3 parametros 
+      
+       $Resultado = DB::table('socios')->where('id','<>',4)->get()->all(); 
+
+Eu tambem posso tratar os resultados usando uma função de call back da mesma forma que eu escrevi uma fra se entre os dados
+eu posso converter ou gerar elementos.  
+
+      $Resultado = DB::table('socios')->orderBy('id')->chunk(100,function($socios){
+             
+             foreach($socios as $socio){
+
+                 echo"<p> o socio". $socio -> nome ."tem o telefone". $socio->telefone ."</p>";
+             }
+
+          });
+
+
+     
+
+
+
+
+      
