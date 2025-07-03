@@ -3,46 +3,34 @@
 
 
 namespace App\Http\Controllers;
+
+use App\Models\Socios as ModelsSocios;
 use Illuminate\Http\Request;
 
-//para executar consultas SQL é necessario importar a classe DB
+
+
+
 use Illuminate\Support\Facades\DB;
-
-
-
+use Socios;
 
 class Teste extends Controller
 {
     public function index()
         {
-            //executando sql puro 
-            //contando o total de registros na tabela socios
-           // $resultado = DB::select("SELECT COUNT(*) total FROM socios");
-           //retonando o registro e todos os dados 
-           // print_r($resultado);
 
+        //embora o nome original da classe que eu criei seja socios
+        //ele so funcinou depois que escrevi dessa forma
+        //deve ser algum tipo de alias para models 
 
-           //cadastrando um novo socio
+          $model = new ModelsSocios();
+          $resultado = $model->get_socios();
+          $model->delete_all();
 
-           
+          foreach($resultado as $socio){
+              echo'<p>' . $socio->nome . '</p>';
+          }
 
-
-
-
-
-
-
-
-
-
-           //consulta os socios 
-           $resultado = DB::select("SELECT * FROM socios");
-           
-           foreach($resultado as $socio){
-
-             echo '<p>'.$socio->nome.'</p>';
-
-           }
+          //view('home',$resultado);
         
         }
 

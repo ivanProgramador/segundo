@@ -1,0 +1,52 @@
+//para executar consultas SQL é necessario importar a classe DB
+// a classe DB contem os metodos de crud esse metodos recebem 2 parametros 
+// o primeiro seria a consuta sql a ser executada, ja o segundo recebe um array 
+//com os dados que serão manipulados  
+
+
+use Illuminate\Support\Facades\DB;
+
+
+
+/executando sql puro 
+
+ Essas queries estão usando métodos da classe DB  nessa parte eu uso os metodos 
+ pra excutar instruções sql RAW (cruas) com o objetivo de entender como funciona 
+ a manipulação da base de dados da forma mais básica dentro desse framework.  
+
+contando o total de registros na tabela socios
+
+       $resultado = DB::select("SELECT COUNT(*) total FROM socios");
+       retonando o registro e todos os dados 
+       print_r($resultado);
+
+
+cadastrando um novo socio
+           
+           DB::insert("INSERT INTO socios VALUES (0,?,?,NOW(),NOW())", ['Angela', '8577663355']);
+
+fazendo um update de um cadastro existente 
+
+             cada ponto de inetrrogação esta sendo lido da frente para tras isso significa 
+             que os dados do array devem obedecer a mesma ordem é assim que ele sabe
+             que o nome é 'Amelia alterada' porque ele vem primeiro na string.    
+
+             DB::update('UPDATE socios SET nome = ? WHERE id_socio = ?', ['Amelia alterada',1]);
+
+apagando um usuario
+         
+         DB::delete('DELETE FROM socios WHERE id_socio = ?', [2]);
+
+Essa queries foram executadas nos controllers para teste mas o certo e que elas fiquem dentro dos models.
+
+Query Builders 
+  A o inves de usar o SQL é possivel utilizar um conjunto de metodos para executar as consultas
+  esses métodos vem da classe DB.
+  
+
+
+
+
+
+
+           
