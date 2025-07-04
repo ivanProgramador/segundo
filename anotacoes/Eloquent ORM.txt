@@ -1,3 +1,110 @@
 Eloquent é um ORM essa ferremnta contem varios mecanismos que possibilitam a 
-manipulação de bases de dados usando pouco código.
+manipulação de bases de dados usando pouco código.O comando abaixo gera um model
+na pasta  "\app\Models\" será gerada uma classe Socio que extende a classe Model. 
+
+php artisan make:model Socio
+
+Dentro desse Model eu so preciso declarar um variavel que faça referencia a minha tabela 
+
+class Socio extends Model
+{
+   protected $table = 'socios'; // Define o nome da tabela se for diferente do plural do nome do modelo
+
+}
+
+então somente com essa variável eu tenho acesso  a todos os metodos que classe Model pode oferecer 
+no caso abaixo eu faço um consulta e leio ela com foreach.O metodo all(); traz os dados e eu leio como
+eu quiser. 
+
+        $socios = Socio::all();
+
+        foreach ($socios as $socio) {
+            echo $socio->nome . '<br>';
+        }
+
+consultando um dado especifico, o metodo where recebe 2 parametros ('campo','valor')   
+
+    $socios = Socio::where('nome','bruno')->get();
+
+ordenando os resultados por ordem alfabetica 
+
+    $socios = Socio::orderBy('nome')->get(); 
+
+ordenando por ordem descendente 
+     
+    $socios = Socio::orderBy('nome','desc')->get();
+
+pergando quantidade especifica de linhas 
+
+    $socios = Socio::take(3)->get();
+
+usando like pra pegar somente os registros que começam com letra maiuscula
+
+    $socios = Socio::where('nome','like','A%')->get(); 
+
+usando filtros no caso abaixo eu quero todos os socios com o id menor que 3 
+
+    $socios = Socio::cursor()->filter(function($socio)){
+         return $socio->id > 3;
+    }
+
+buscando um socio com o id especifico 
+
+   $socio = Socio::where('id',3)->first();
+
+inserindo dados usando Eloquent isso esta sendo feito de forma procedural para que eu entenda o funcionamento 
+   
+
+   $socio = new Socio();
+   $socio -> nome = 'Joaquim';
+   $socio -> telefone = '5555555555';
+   $socio->save();
+
+Outra forma de inserir dados mas isso so vai funcionar se  a config "protected $fillable" 
+estiver dentro do model mostrando os campos.
+
+protected $fillable = ['nome','telefone'];
+
+
+   Socio::create(
+      ['nome' => 'Ana', 'telefone'=>'85666622'],
+      ['nome' => 'Beto', 'telefone'=>'8577777777'],
+      ['nome' => 'Camila', 'telefone'=>'8944622'],
+      ['nome' => 'Daniel', 'telefone'=>'856664422']
+    );
+
+Fazendo um update usando o Eloquent  
+
+   Socio::where('nome','Ana')->update([
+      'telefone' =>'0000000'
+   ]);
+
+Fazendo um bulk update no caso todos os socios que tem nomes que começam com a letra 'A'
+maiuscula teream seus telefones zerados.   
+
+   Socio::where('nome','like','A%')->update([
+      'telefone' =>'0000000'
+   ]);
+
+Apagando um registro com Eloquent 
+
+   Socio::find(3)->delete();
+
+   
+
+  
+
+
+
+
+
+   
+
+ 
+
+
+
+    
+
+
 
