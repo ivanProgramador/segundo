@@ -18,16 +18,10 @@ class Teste extends Controller
 {
     public function index()
       {
-         // aqui o processo e bem simples 
-         //so tem uma novidade que seria a classe carbon que possui varias funcvionalizades que ajudam com data/hora 
+        DB::table('socios')->where('nome','carlos')->delete();
 
-         DB::table('socios')->insert([
-            'nome'=>'Bruno',
-            'Telefone'=>'8577776666',
-            'created_at'=> Carbon::now(),
-            'updated_at'=> Carbon::now(),
-         ]);
-
+      
+        
         //return view('home');  
         
        }

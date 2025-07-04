@@ -79,6 +79,25 @@ inserindo dados usando query builders
             'updated_at'=> Carbon::now(),
          ]);
 
+editando um registro usando query builder 
+
+     DB::table('socios')->where('id_socio',1)->update(
+            [
+                'nome' => 'José editado',
+                'updated_at' => Carbon::now()
+            ]
+        );
+        
+apagando um registro com query builder 
+     
+      DB::table('socios')->where('nome','carlos')->delete();
+
+
+
+      
+
+
+
   
 
 

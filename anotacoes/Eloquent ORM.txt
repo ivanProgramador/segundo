@@ -1,0 +1,3 @@
+Eloquent é um ORM essa ferremnta contem varios mecanismos que possibilitam a 
+manipulação de bases de dados usando pouco código.
+
